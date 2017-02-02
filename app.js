@@ -1,6 +1,4 @@
 import koa from 'koa';
-// Middleware for routing
-import middleware from 'koa-router'
 // Middleware for logging pretty messages.
 import logger from 'koa-logger';
 // Middleware for accesing json from ctx.body.
@@ -9,13 +7,18 @@ import parser from 'koa-bodyparser';
 import api from './api';
 import handleErrors from './middlewares/handleErrors';
 // Add db here
-import db from 'db-test';
-db.setup('development');
+import db from 'objection-test/dist';
+import dbConfig from './config/db';
 
-// Applies all routes to the router.
-const router = api(middleware(), db);
 // Creates the application.
 const app = new koa();
+
+// Create the db
+const models = db(dbConfig);
+console.log(models.brand);
+
+// Create the api
+const router = api(models);
 
 app
 	.use(handleErrors)

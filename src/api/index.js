@@ -1,13 +1,16 @@
-// Middleware for routing.
+// Middleware for routing
+import Router from 'koa-router';
+
 import Brands from './brands';
 import Products from './products';
 
 // Set a prefix of our api, in this case gin, it could be config aware
 const api = 'gin'
+const router = new Router();
 
-export default (router, db) => {
+export default (models) => {
 	router.prefix(`/${api}`);
-	router = Brands(db.models.Brand, router);
-	router = Products(db.models.Product, router);
+	Brands(router, models.Brand);
+	Products(router, models.Product);
 	return router;
 }
