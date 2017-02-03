@@ -3,22 +3,16 @@ import koa from 'koa';
 import logger from 'koa-logger';
 // Middleware for accesing json from ctx.body.
 import parser from 'koa-bodyparser';
+// Middleware for error handling
+import handleErrors from './middlewares/handleErrors';
 // A seperate file with my routes.
 import api from './api';
-import handleErrors from './middlewares/handleErrors';
-// Add db here
-import db from 'objection-test/dist';
-import dbConfig from './config/db';
 
 // Creates the application.
 const app = new koa();
 
-// Create the db
-const models = db(dbConfig);
-console.log(models.brand);
-
 // Create the api
-const router = api(models);
+const router = api();
 
 app
 	.use(handleErrors)
@@ -35,5 +29,3 @@ app
 
 // Start the application.
 app.listen(5050, () => console.log('Listening on port 5050.'));
-
-export default app;

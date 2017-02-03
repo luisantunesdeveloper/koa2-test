@@ -1,3 +1,5 @@
+'use strict';
+
 // Export a function that takes the router
 export default (router, Brand) => {
     // GET to all brands.
